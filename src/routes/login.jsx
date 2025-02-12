@@ -1,6 +1,12 @@
+import { useNavigate } from 'react-router-dom';
 export function Login() {
+    const navigate = useNavigate();
+
+    const handleSignpClick = () => {
+        navigate('/signup');
+    };
     return (
-        <div class="py-6" style={{ paddingTop: "200px" }}> {/* Added padding to shift the card downward */}
+        <div class="py-6" style={{ paddingTop: "160px" }}>
             <div class="flex bg-white rounded-lg shadow-lg overflow-hidden mx-auto max-w-sm lg:max-w-4xl">
                 <div class="hidden lg:block lg:w-1/2 bg-cover"
                     style={{
@@ -20,7 +26,6 @@ export function Login() {
                     <div class="mt-4">
                         <label class="block text-purple-700 text-sm font-bold mb-2">Password</label>
                         <input class="bg-purple-200 text-purple-700 focus:outline-none focus:shadow-outline border border-purple-300 rounded py-2 px-4 block w-full appearance-none" type="password" />
-                        {/* Move "Forget Password?" below the password input */}
                         <a href="#" class="text-xs text-purple-500 block mt-2 text-right">Forget Password?</a>
                     </div>
 
@@ -50,7 +55,7 @@ export function Login() {
 
                     <div class="mt-4 flex items-center justify-between">
                         <span class="border-b w-1/5 md:w-1/4"></span>
-                        <a href="#" class="text-xs text-purple-500 uppercase">or sign up</a>
+                        <a href="#" onClick={handleSignpClick} class="text-xs text-purple-500 uppercase">or sign up</a>
                         <span class="border-b w-1/5 md:w-1/4"></span>
                     </div>
                 </div>
