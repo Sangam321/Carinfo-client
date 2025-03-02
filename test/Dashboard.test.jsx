@@ -1,5 +1,5 @@
-import { store } from '@/store'; // Assuming you're using Redux for state management
-import { MockedProvider } from '@apollo/client/testing'; // For API mocks, if necessary
+import { store } from '@/store';
+import { MockedProvider } from '@apollo/client/testing';
 import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
@@ -17,7 +17,7 @@ const renderWithProviders = (ui) => {
 
 describe('Dashboard Component', () => {
     test('renders total sales and total revenue correctly', () => {
-        // Mock data for the query
+
         const mockData = {
             purchasedcar: [
                 { carId: { carTitle: 'Car 1', carPrice: 500000 }, amount: 500000 },
@@ -25,7 +25,6 @@ describe('Dashboard Component', () => {
             ],
         };
 
-        // Simulating the API response (you can use mock hooks if necessary)
         jest.spyOn(require('@/features/api/purchaseApi'), 'useGetPurchasedcarsQuery').mockReturnValue({
             data: mockData,
             isLoading: false,
@@ -35,7 +34,7 @@ describe('Dashboard Component', () => {
 
         renderWithProviders(<Dashboard />);
 
-        // Check for the correct values
+
         expect(screen.getByText('Total Sales')).toBeInTheDocument();
         expect(screen.getByText('2')).toBeInTheDocument(); // Based on the mock data
         expect(screen.getByText('Total Revenue')).toBeInTheDocument();
@@ -59,8 +58,8 @@ describe('Dashboard Component', () => {
 
         renderWithProviders(<Dashboard />);
 
-        // Check for chart rendering
-        const chart = screen.getByTestId('line-chart'); // Add data-testid="line-chart" to the LineChart component in the Dashboard
+
+        const chart = screen.getByTestId('line-chart');
         expect(chart).toBeInTheDocument();
     });
 
