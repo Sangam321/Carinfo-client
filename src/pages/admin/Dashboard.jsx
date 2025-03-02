@@ -1,51 +1,52 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useGetPurchasedcarsQuery } from "@/features/api/purchaseApi";
 import React from "react";
 import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
 const Dashboard = () => {
-  // Mock data for total users and total likes
-  const mockTotalUsers = 2; // Replace this with your actual user data
-  const mockTotalLikes = 2; // Replace this with actual like data
 
-  // Mock data for car prices
-  const carData = [
-    { name: "Car 1", price: 500000 },
-    { name: "Car 2", price: 700000 },
-    { name: "Car 3", price: 600000 },
-    { name: "Car 4", price: 800000 },
-    { name: "Car 5", price: 750000 },
-  ];
+  const { data, isSuccess, isError, isLoading } = useGetPurchasedcarsQuery();
 
-  // Mock revenue and sales count
-  const totalRevenue = carData.reduce((acc, element) => acc + element.price, 0);
-  const totalSales = carData.length;
+  if (isLoading) return <h1>Loading...</h1>
+  if (isError) return <h1 className="text-red-500">Failed to get purchased car</h1>
 
+  //
+  const { purchasedcar } = data || [];
+
+  const carData = purchasedcar.map((car) => ({
+    name: car.carId.carTitle,
+    price: car.carId.carPrice
+  }))
+
+  const totalRevenue = purchasedcar.reduce((acc, element) => acc + (element.amount || 0), 0);
+
+  const totalSales = purchasedcar.length;
   return (
-    <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-      {/* Total Users Card */}
+    <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 ">
       <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
         <CardHeader>
-          <CardTitle>Total Users</CardTitle>
+          <CardTitle>Total Sales</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-3xl font-bold text-blue-600">{mockTotalUsers}</p>
+          <p className="text-3xl font-bold text-blue-600">{totalSales}</p>
         </CardContent>
       </Card>
 
-      {/* Total Likes Card */}
       <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
         <CardHeader>
-          <CardTitle>Total Likes</CardTitle>
+          <CardTitle>Total Revenue</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-3xl font-bold text-blue-600">{mockTotalLikes}</p>
+          <p className="text-3xl font-bold text-blue-600">{totalRevenue}</p>
         </CardContent>
       </Card>
 
-      {/* Car Prices Card */}
+      {/* car Prices Card */}
       <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300 col-span-1 sm:col-span-2 md:col-span-3 lg:col-span-4">
         <CardHeader>
-          <CardTitle className="text-xl font-semibold text-gray-700">Car Prices</CardTitle>
+          <CardTitle className="text-xl font-semibold text-gray-700">
+            car Prices
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <ResponsiveContainer width="100%" height={250}>
